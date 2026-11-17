@@ -1,0 +1,129 @@
+/* Colors live in variables so a theme change is one edit, not twenty. */
+:root {
+  --bg: #1b1f24;        /* machine-gray */
+  --panel: #262b32;
+  --ink: #e8e6e1;
+  --muted: #8b939c;
+  --accent: #f2b33d;    /* safety yellow */
+  --good: #4caf7d;
+  --bad: #d9574a;
+  --radius: 14px;
+}
+
+* { box-sizing: border-box; }
+
+/* The HTML `hidden` attribute is just a weak default (display:none).
+   Any rule like `.grade { display: grid }` beats it, so the element shows
+   anyway. This makes `hidden` always win. */
+[hidden] { display: none !important; }
+
+body {
+  margin: 0;
+  min-height: 100dvh;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  display: flex;
+  flex-direction: column;
+  padding: env(safe-area-inset-top) 16px env(safe-area-inset-bottom);
+}
+
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 560px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 14px 0 10px;
+}
+h1 { font-size: 1.15rem; margin: 0; letter-spacing: .02em; }
+h1::before { content: "◢ "; color: var(--accent); }
+
+select {
+  background: var(--panel);
+  color: var(--ink);
+  border: 1px solid #3a414a;
+  border-radius: 8px;
+  padding: 8px 10px;
+  font-size: .95rem;
+}
+
+main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  max-width: 560px;
+  width: 100%;
+  margin: 0 auto;
+  padding-bottom: 20px;
+}
+
+.progress { color: var(--muted); font-size: .9rem; text-align: center; }
+
+/* Deck + mode pickers sit in a row under the title. */
+.controls { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; max-width: 560px; width: 100%; margin: 0 auto 14px; }
+
+/* The card: front = picture + question; back = picture + answer. */
+.card {
+  flex: 1;
+  min-height: 260px;
+  background: var(--panel);
+  border-radius: var(--radius);
+  border-top: 4px solid var(--accent);
+  padding: 22px;
+  display: flex;
+  transition: border-color .2s;
+}
+.card.right { border-top-color: var(--good); }
+.card.wrong { border-top-color: var(--bad); }
+
+.face { width: 100%; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; gap: 16px; }
+.back { display: none; }
+.card.flipped .front { display: none; }
+.card.flipped .back { display: flex; }
+
+/* Pictures: white "paper" panel so they read like a print. */
+.art { background: #f4f2ec; color: #1b1f24; border-radius: 10px; padding: 14px; width: 100%; display: flex; justify-content: center; }
+.art-line { width: 100%; max-width: 360px; height: auto; }
+.art-sym { width: 110px; height: 110px; }
+.back .art-sym { width: 70px; height: 70px; }
+.back .art-line { max-width: 260px; }
+
+.prompt { font-size: 1.35rem; font-weight: 700; line-height: 1.3; }
+.answer { font-size: 1.6rem; font-weight: 800; color: var(--accent); line-height: 1.25; }
+.why { color: var(--muted); font-size: 1rem; line-height: 1.4; max-width: 34ch; }
+.verdict { font-weight: 700; font-size: 1.05rem; }
+.verdict:empty { display: none; }
+.card.right .verdict { color: var(--good); }
+.card.wrong .verdict { color: var(--bad); }
+
+#confetti { position: fixed; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 10; }
+
+.btn { border: 0; border-radius: var(--radius); padding: 18px; font-size: 1.05rem; font-weight: 700; color: #111; cursor: pointer; }
+.got { background: var(--good); }
+.miss { background: var(--bad); }
+.next { background: var(--accent); }
+.grade { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+
+/* Quiz: stacked answer buttons (answers are words, too long for a 2x2 grid) */
+.choices { display: grid; grid-template-columns: 1fr; gap: 10px; }
+.choice {
+  background: var(--panel);
+  color: var(--ink);
+  border: 2px solid #3a414a;
+  border-radius: var(--radius);
+  padding: 15px 14px;
+  font-size: 1.05rem;
+  font-weight: 600;
+  text-align: left;
+  cursor: pointer;
+}
+.choice:disabled { cursor: default; opacity: .45; }
+.choice.correct { border-color: var(--good); background: #24402f; opacity: 1; }
+.choice.picked-wrong { border-color: var(--bad); background: #4a2a27; opacity: 1; }
+
+.done { text-align: center; background: var(--panel); border-radius: var(--radius); padding: 28px; }
+.done h2 { margin-top: 0; color: var(--accent); }
+select { width: 100%; }

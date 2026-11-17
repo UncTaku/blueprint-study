@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Blueprint Study</title>
+  <!-- PWA plumbing: manifest = install metadata, theme-color = phone status bar -->
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#1b1f24">
+  <link rel="icon" href="icons/icon-192.png">
+  <link rel="apple-touch-icon" href="icons/icon-192.png">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <h1>Blueprint Study</h1>
+  </header>
+
+  <!-- Two settings: WHAT to study (deck) and HOW (mode). Both remembered. -->
+  <div class="controls">
+    <select id="deck" aria-label="Deck">
+      <option value="all">All cards</option>
+      <option value="lines">Alphabet of lines</option>
+      <option value="symbols">GD&amp;T symbols</option>
+      <option value="reading">Dimensions &amp; callouts</option>
+    </select>
+    <select id="mode" aria-label="Mode">
+      <option value="quiz">Quiz</option>
+      <option value="flash">Flashcards</option>
+    </select>
+  </div>
+
+  <main>
+    <div id="progress" class="progress"></div>
+
+    <!-- The card: picture (if any) + question on the front; verdict + answer + why on the back. -->
+    <div id="card" class="card" aria-live="polite">
+      <div class="face front">
+        <div id="art" class="art"></div>
+        <span id="prompt" class="prompt"></span>
+      </div>
+      <div class="face back">
+        <div id="art-back" class="art"></div>
+        <div id="verdict" class="verdict"></div>
+        <span id="answer" class="answer"></span>
+        <span id="why" class="why"></span>
+      </div>
+    </div>
+    <canvas id="confetti" aria-hidden="true"></canvas>
+
+    <!-- Quiz mode: 4 buttons, built in app.js -->
+    <div id="choices" class="choices" hidden></div>
+
+    <!-- Flashcard mode: flip, then grade yourself honestly -->
+    <button id="flip" class="btn next" hidden>Show answer</button>
+    <div id="grade" class="grade" hidden>
+      <button id="missed" class="btn miss">Missed it</button>
+      <button id="gotit" class="btn got">Got it</button>
+    </div>
+
+    <button id="next" class="btn next" hidden>Next</button>
+
+    <section id="done" class="done" hidden>
+      <h2>Round done</h2>
+      <p id="summary"></p>
+      <button id="restart" class="btn got">Go again</button>
+    </section>
+  </main>
+
+  <script src="art.js"></script>
+  <script src="cards.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
